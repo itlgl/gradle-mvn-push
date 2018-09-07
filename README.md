@@ -62,12 +62,12 @@ Add the following at the end of each `build.gradle` that you wish to upload:
 
 #### For Android Library
 ```groovy
-apply from: 'https://raw.github.com/itlgl/gradle-mvn-push/master/gradle-mvn-push-android.gradle'
+apply from: 'https://raw.github.com/itlgl/gradle-mvn-push/v1.0.0/gradle-mvn-push-android.gradle'
 ```
 
 #### For JAVA Library
 ```groovy
-apply from: 'https://raw.github.com/itlgl/gradle-mvn-push/master/gradle-mvn-push-java.gradle'
+apply from: 'https://raw.github.com/itlgl/gradle-mvn-push/v1.0.0/gradle-mvn-push-java.gradle'
 ```
 
 ### 6. Build and Push
