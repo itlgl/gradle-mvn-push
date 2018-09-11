@@ -48,7 +48,7 @@ POM_LICENCE_URL=http://www.apache.org/licenses/LICENSE-2.0.txt
 POM_LICENCE_DIST=repo
 POM_DEVELOPER_ID=chrisbanes
 POM_DEVELOPER_NAME=Chris Banes
-POM_DEVELOPER_EMAIL=xxx@xxx.com // add by itlgl
+POM_DEVELOPER_EMAIL=itlgl@outlook.com
 
 # generate aar in local
 LOCAL_REPOSITORY_URL=file://D:/temp/
