@@ -114,6 +114,10 @@ RELEASE_REPOSITORY_URL = file://C:/Users/ligl01/.m2/repository
 SNAPSHOT_REPOSITORY_URL = file://C:/Users/ligl01/.m2/repository
 ```
 
+## Thanks
+
+[chrisbanes gradle-mvn-push](https://github.com/chrisbanes/gradle-mvn-push)
+
 ## License
 
     Copyright 2013 Chris Banes
