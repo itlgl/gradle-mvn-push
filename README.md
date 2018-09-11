@@ -49,6 +49,13 @@ POM_LICENCE_DIST=repo
 POM_DEVELOPER_ID=chrisbanes
 POM_DEVELOPER_NAME=Chris Banes
 POM_DEVELOPER_EMAIL=xxx@xxx.com // add by itlgl
+
+# generate aar in local
+LOCAL_REPOSITORY_URL=file://D:/temp/
+
+# upload to Jcenter
+JCENTER_RELEASE_REPOSITORY_URL=https://api.bintray.com/maven/itlgl/maven/iosdialog/;publish=1
+JCENTER_SNAPSHOT_REPOSITORY_URL=https://api.bintray.com/maven/itlgl/maven/iosdialog/;publish=1
 ```
 
 The `VERSION_NAME` value is important. If it contains the keyword `SNAPSHOT` then the build will upload to the snapshot server, if not then to the release server.
@@ -66,52 +73,38 @@ POM_PACKAGING=aar
 
 Add the following at the end of each `build.gradle` that you wish to upload:
 
-#### For Android Library
+#### For Android Project
 ```groovy
 apply from: 'https://raw.github.com/itlgl/gradle-mvn-push/v1.0.1/gradle-mvn-push-android.gradle'
 ```
 
-#### For JAVA Library
+#### For JAVA Project
 ```groovy
 apply from: 'https://raw.github.com/itlgl/gradle-mvn-push/v1.0.1/gradle-mvn-push-java.gradle'
 ```
 
-### 6. Build and Push
-
-You can now build and push:
-
-```bash
-$ gradle clean build uploadArchives
-```
-
-### 7. javadoc "编码GBK的不可映射字符" error
+### 6. javadoc "编码GBK的不可映射字符" error
 
 Add properties `JAVADOC_FILE_ENCODING` in gradle.properties file:
 ```groovy
 JAVADOC_FILE_ENCODING=<your java source file encoding,default utf-8>
 ```
 
-### 8. Upload to Jcenter or Local
+### 7. Upload to Maven/Jcenter/Local
 
-There are other properties which can be set:
-
+upload to maven
 ```
-RELEASE_REPOSITORY_URL (defaults to Maven Central's staging server)
-SNAPSHOT_REPOSITORY_URL (defaults to Maven Central's snapshot server)
+gradle uploadToMaven
 ```
 
-#### Upload to Jcenter
-Set release url and snapshot url to your Jcenter maven path,for example:
+upload to Jcenter
 ```
-RELEASE_REPOSITORY_URL=https://api.bintray.com/maven/itlgl/maven/byteutil/;publish=1
-SNAPSHOT_REPOSITORY_URL=https://api.bintray.com/maven/itlgl/maven/byteutil/;publish=1
+gradle uploadToJcenter
 ```
 
-#### Upload to Local
-for example:
+upload to Local
 ```
-RELEASE_REPOSITORY_URL = file://C:/Users/ligl01/.m2/repository
-SNAPSHOT_REPOSITORY_URL = file://C:/Users/ligl01/.m2/repository
+gradle uploadToLocal
 ```
 
 ## Thanks
