@@ -16,9 +16,15 @@ This will include the username and password to upload to the Maven server and so
 It may also include your signing key id, password, and secret key ring file (for signed uploads).  Signing is only necessary if you're putting release builds of your project on maven central.
 
 ```properties
-NEXUS_USERNAME=chrisbanes
-NEXUS_PASSWORD=g00dtry
+# your maven config
+MAVEN_USERNAME=<your maven username>
+MAVEN_PASSWORD=<your maven password>
 
+# your jcenter config
+JCENTER_USERNAME=<your jcenter username>
+JCENTER_PASSWORD=<your jcenter apikey>
+
+# your gpg key config
 signing.keyId=ABCDEF12
 signing.password=n1c3try
 signing.secretKeyRingFile=~/.gnupg/secring.gpg
@@ -62,12 +68,12 @@ Add the following at the end of each `build.gradle` that you wish to upload:
 
 #### For Android Library
 ```groovy
-apply from: 'https://raw.github.com/itlgl/gradle-mvn-push/master/gradle-mvn-push-android.gradle'
+apply from: 'https://raw.github.com/itlgl/gradle-mvn-push/v1.0.1/gradle-mvn-push-android.gradle'
 ```
 
 #### For JAVA Library
 ```groovy
-apply from: 'https://raw.github.com/itlgl/gradle-mvn-push/master/gradle-mvn-push-java.gradle'
+apply from: 'https://raw.github.com/itlgl/gradle-mvn-push/v1.0.1/gradle-mvn-push-java.gradle'
 ```
 
 ### 6. Build and Push

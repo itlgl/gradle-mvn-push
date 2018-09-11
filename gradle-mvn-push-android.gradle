@@ -13,30 +13,75 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+ 
+/*
+ * Copyright 2018 itlgl
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
 apply plugin: 'maven'
 apply plugin: 'signing'
+
+ext.releaseRepositoryUrl = ""//getMavenReleaseRepositoryUrl()
+ext.snapshotRepositoryUrl = ""//getMavenSnapshotRepositoryUrl()
+ext.repositoryUsername = getMavenRepositoryUsername()
+ext.repositoryPassword = getMavenRepositoryPassword()
 
 def isReleaseBuild() {
     return VERSION_NAME.contains("SNAPSHOT") == false
 }
 
-def getReleaseRepositoryUrl() {
-    return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
+def getMavenReleaseRepositoryUrl() {
+    return hasProperty('MAVEN_RELEASE_REPOSITORY_URL') ? MAVEN_RELEASE_REPOSITORY_URL
             : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+    return "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
 }
 
-def getSnapshotRepositoryUrl() {
-    return hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
+def getMavenSnapshotRepositoryUrl() {
+    return hasProperty('MAVEN_SNAPSHOT_REPOSITORY_URL') ? MAVEN_SNAPSHOT_REPOSITORY_URL
             : "https://oss.sonatype.org/content/repositories/snapshots/"
 }
 
-def getRepositoryUsername() {
-    return hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : ""
+def getJcenterReleaseRepositoryUrl() {
+    return hasProperty('JCENTER_RELEASE_REPOSITORY_URL') ? JCENTER_RELEASE_REPOSITORY_URL
+            : ""
 }
 
-def getRepositoryPassword() {
-    return hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
+def getJcenterSnapshotRepositoryUrl() {
+    return hasProperty('JCENTER_SNAPSHOT_REPOSITORY_URL') ? JCENTER_SNAPSHOT_REPOSITORY_URL
+            : ""
+}
+
+def getLocalRepositoryUrl() {
+    return hasProperty('LOCAL_REPOSITORY_URL') ? LOCAL_REPOSITORY_URL
+            : ""
+}
+
+def getMavenRepositoryUsername() {
+    return hasProperty('MAVEN_USERNAME') ? MAVEN_USERNAME : ""
+}
+
+def getMavenRepositoryPassword() {
+    return hasProperty('MAVEN_PASSWORD') ? MAVEN_PASSWORD : ""
+}
+
+def getJcenterRepositoryUsername() {
+    return hasProperty('JCENTER_USERNAME') ? JCENTER_USERNAME : ""
+}
+
+def getJcenterRepositoryPassword() {
+    return hasProperty('JCENTER_PASSWORD') ? JCENTER_PASSWORD : ""
 }
 
 def getJavaDocFileEncoding() {
@@ -53,11 +98,11 @@ afterEvaluate { project ->
                 pom.artifactId = POM_ARTIFACT_ID
                 pom.version = VERSION_NAME
 
-                repository(url: getReleaseRepositoryUrl()) {
-                    authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+                repository(url: releaseRepositoryUrl) {
+                    authentication(userName: repositoryUsername, password: repositoryPassword)
                 }
-                snapshotRepository(url: getSnapshotRepositoryUrl()) {
-                    authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+                snapshotRepository(url: snapshotRepositoryUrl) {
+                    authentication(userName: repositoryUsername, password: repositoryPassword)
                 }
 
                 pom.project {
@@ -118,4 +163,56 @@ afterEvaluate { project ->
         archives androidSourcesJar
         archives androidJavadocsJar
     }
+    
+    task uploadToMaven << {
+        releaseRepositoryUrl = getMavenReleaseRepositoryUrl()
+        snapshotRepositoryUrl = getMavenSnapshotRepositoryUrl()
+        repositoryUsername = getMavenRepositoryUsername()
+        repositoryPassword = getMavenRepositoryPassword()
+        
+        println "upload to maven"
+    }
+
+    task uploadToJcenter << {
+        releaseRepositoryUrl = getJcenterReleaseRepositoryUrl()
+        snapshotRepositoryUrl = getJcenterSnapshotRepositoryUrl()
+        repositoryUsername = getJcenterRepositoryUsername()
+        repositoryPassword = getJcenterRepositoryPassword()
+
+        println "upload to jcenter"
+    }
+    
+    task uploadToLocal << {
+        releaseRepositoryUrl = getLocalRepositoryUrl()
+        snapshotRepositoryUrl = getLocalRepositoryUrl()
+        repositoryUsername = ""
+        repositoryPassword = ""
+
+        println "upload to local"
+    }
+    
+    task setUploadArchivesParam << {
+        println "releaseRepositoryUrl=$releaseRepositoryUrl"
+        println "snapshotRepositoryUrl=$snapshotRepositoryUrl"
+        println "repositoryUsername=$repositoryUsername"
+        println "repositoryPassword=$repositoryPassword"
+    
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    repository(url: releaseRepositoryUrl) {
+                        authentication(userName: repositoryUsername, password: repositoryPassword)
+                    }
+                    snapshotRepository(url: snapshotRepositoryUrl) {
+                        authentication(userName: repositoryUsername, password: repositoryPassword)
+                    }
+                }
+            }
+        }
+    }
+    
+    uploadToMaven.finalizedBy setUploadArchivesParam
+    uploadToJcenter.finalizedBy setUploadArchivesParam
+    uploadToLocal.finalizedBy setUploadArchivesParam
+    setUploadArchivesParam.finalizedBy uploadArchives
 }
