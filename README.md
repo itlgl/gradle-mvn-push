@@ -75,12 +75,12 @@ Add the following at the end of each `build.gradle` that you wish to upload:
 
 #### For Android Project
 ```groovy
-apply from: 'https://raw.github.com/itlgl/gradle-mvn-push/v1.0.1/gradle-mvn-push-android.gradle'
+apply from: 'https://raw.github.com/itlgl/gradle-mvn-push/v1.0.2/gradle-mvn-push-android.gradle'
 ```
 
 #### For JAVA Project
 ```groovy
-apply from: 'https://raw.github.com/itlgl/gradle-mvn-push/v1.0.1/gradle-mvn-push-java.gradle'
+apply from: 'https://raw.github.com/itlgl/gradle-mvn-push/v1.0.2/gradle-mvn-push-java.gradle'
 ```
 
 ### 6. javadoc "编码GBK的不可映射字符" error
