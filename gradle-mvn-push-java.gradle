@@ -166,7 +166,7 @@ afterEvaluate { project ->
         archives javadocJar
     }
     
-    task uploadToMaven << {
+    task uploadToMaven {
         releaseRepositoryUrl = getMavenReleaseRepositoryUrl()
         snapshotRepositoryUrl = getMavenSnapshotRepositoryUrl()
         repositoryUsername = getMavenRepositoryUsername()
@@ -175,7 +175,7 @@ afterEvaluate { project ->
         println "upload to maven"
     }
 
-    task uploadToJcenter << {
+    task uploadToJcenter {
         releaseRepositoryUrl = getJcenterReleaseRepositoryUrl()
         snapshotRepositoryUrl = getJcenterSnapshotRepositoryUrl()
         repositoryUsername = getJcenterRepositoryUsername()
@@ -184,7 +184,7 @@ afterEvaluate { project ->
         println "upload to jcenter"
     }
     
-    task uploadToLocal << {
+    task uploadToLocal {
         releaseRepositoryUrl = getLocalRepositoryUrl()
         snapshotRepositoryUrl = getLocalRepositoryUrl()
         repositoryUsername = ""
@@ -193,7 +193,7 @@ afterEvaluate { project ->
         println "upload to local"
     }
     
-    task setUploadArchivesParam << {
+    task setUploadArchivesParam {
         println "releaseRepositoryUrl=$releaseRepositoryUrl"
         println "snapshotRepositoryUrl=$snapshotRepositoryUrl"
         println "repositoryUsername=$repositoryUsername"
