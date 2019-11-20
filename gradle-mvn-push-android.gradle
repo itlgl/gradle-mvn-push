@@ -165,46 +165,54 @@ afterEvaluate { project ->
     }
     
     task uploadToMaven {
-        releaseRepositoryUrl = getMavenReleaseRepositoryUrl()
-        snapshotRepositoryUrl = getMavenSnapshotRepositoryUrl()
-        repositoryUsername = getMavenRepositoryUsername()
-        repositoryPassword = getMavenRepositoryPassword()
-        
-        println "upload to maven"
+        doFirst {
+            releaseRepositoryUrl = getMavenReleaseRepositoryUrl()
+            snapshotRepositoryUrl = getMavenSnapshotRepositoryUrl()
+            repositoryUsername = getMavenRepositoryUsername()
+            repositoryPassword = getMavenRepositoryPassword()
+            
+            println "upload to maven"
+        }
     }
 
     task uploadToJcenter {
-        releaseRepositoryUrl = getJcenterReleaseRepositoryUrl()
-        snapshotRepositoryUrl = getJcenterSnapshotRepositoryUrl()
-        repositoryUsername = getJcenterRepositoryUsername()
-        repositoryPassword = getJcenterRepositoryPassword()
+        doFirst {
+            releaseRepositoryUrl = getJcenterReleaseRepositoryUrl()
+            snapshotRepositoryUrl = getJcenterSnapshotRepositoryUrl()
+            repositoryUsername = getJcenterRepositoryUsername()
+            repositoryPassword = getJcenterRepositoryPassword()
 
-        println "upload to jcenter"
+            println "upload to jcenter"
+        }
     }
     
     task uploadToLocal {
-        releaseRepositoryUrl = getLocalRepositoryUrl()
-        snapshotRepositoryUrl = getLocalRepositoryUrl()
-        repositoryUsername = ""
-        repositoryPassword = ""
+        doFirst {
+            releaseRepositoryUrl = getLocalRepositoryUrl()
+            snapshotRepositoryUrl = getLocalRepositoryUrl()
+            repositoryUsername = ""
+            repositoryPassword = ""
 
-        println "upload to local"
+            println "upload to local"
+        }
     }
     
     task setUploadArchivesParam {
-        println "releaseRepositoryUrl=$releaseRepositoryUrl"
-        println "snapshotRepositoryUrl=$snapshotRepositoryUrl"
-        println "repositoryUsername=$repositoryUsername"
-        println "repositoryPassword=$repositoryPassword"
-    
-        uploadArchives {
-            repositories {
-                mavenDeployer {
-                    repository(url: releaseRepositoryUrl) {
-                        authentication(userName: repositoryUsername, password: repositoryPassword)
-                    }
-                    snapshotRepository(url: snapshotRepositoryUrl) {
-                        authentication(userName: repositoryUsername, password: repositoryPassword)
+        doFirst {
+            println "releaseRepositoryUrl=$releaseRepositoryUrl"
+            println "snapshotRepositoryUrl=$snapshotRepositoryUrl"
+            println "repositoryUsername=$repositoryUsername"
+            println "repositoryPassword=$repositoryPassword"
+        
+            uploadArchives {
+                repositories {
+                    mavenDeployer {
+                        repository(url: releaseRepositoryUrl) {
+                            authentication(userName: repositoryUsername, password: repositoryPassword)
+                        }
+                        snapshotRepository(url: snapshotRepositoryUrl) {
+                            authentication(userName: repositoryUsername, password: repositoryPassword)
+                        }
                     }
                 }
             }
