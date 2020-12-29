@@ -147,6 +147,7 @@ afterEvaluate { project ->
         // https://www.2cto.com/kf/201701/582969.html
         options.encoding = getJavaDocFileEncoding()
         classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        failOnError false
     }
 
     task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
